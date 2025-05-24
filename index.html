@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahmed AboGabal | Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+    .project-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .social-icon {
+      transition: all 0.3s ease;
+    }
+    .social-icon:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body class="text-gray-100 font-sans antialiased">
+  <!-- Floating Navigation -->
+  <nav class="fixed w-full bg-gray-900/80 backdrop-blur-sm z-50 py-3 px-6 shadow-lg">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="#" class="text-xl font-bold gradient-text">AboGabal</a>
+      <div class="hidden md:flex space-x-8">
+        <a href="#about" class="hover:text-indigo-300 transition">About</a>
+        <a href="#skills" class="hover:text-indigo-300 transition">Skills</a>
+        <a href="#projects" class="hover:text-indigo-300 transition">Projects</a>
+        <a href="#contact" class="hover:text-indigo-300 transition">Contact</a>
+      </div>
+      <button class="md:hidden text-xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 fade-in">
+    <div class="relative">
+      <div class="absolute -inset-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 animate-pulse"></div>
+      <img src="ahmed.jpg (2).jpeg" alt="Ahmed AboGabal" 
+           class="relative rounded-full w-40 h-40 shadow-xl border-4 border-gray-800 object-cover">
+    </div>
+    <h1 class="text-5xl font-bold mt-8 mb-2">Ahmed AboGabal</h1>
+    <div class="text-2xl mb-6">
+      <span class="gradient-text font-medium">Full Stack Developer</span>
+      <span class="mx-2">•</span>
+      <span class="gradient-text font-medium">Tech Enthusiast</span>
+    </div>
+    <p class="max-w-2xl mx-auto text-lg text-gray-300 mb-8">
+      Building innovative solutions with clean code and modern technologies
+    </p>
+    <div class="flex space-x-6">
+      <a href="#" class="social-icon text-2xl text-indigo-400 hover:text-white">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="#" class="social-icon text-2xl text-indigo-400 hover:text-white">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="#" class="social-icon text-2xl text-indigo-400 hover:text-white">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="#" class="social-icon text-2xl text-indigo-400 hover:text-white">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+    <a href="#about" class="mt-12 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+      Explore My Work
+    </a>
+  </header>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 px-4 max-w-6xl mx-auto fade-in">
+    <h2 class="text-4xl font-bold text-center mb-16 gradient-text">About Me</h2>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_iv4dsx3q.json" background="transparent" speed="1" style="width: 100%; height: auto;" loop autoplay></lottie-player>
+      </div>
+      <div>
+        <h3 class="text-2xl font-semibold mb-4">Hello, I'm Ahmed 👋</h3>
+        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+          Passionate developer with expertise in web technologies and system design. I specialize in creating efficient, 
+          scalable applications with clean code and intuitive user interfaces.
+        </p>
+        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+          When I'm not coding, you can find me exploring new technologies, contributing to open source projects, 
+          or enjoying a good cup of coffee while brainstorming my next project.
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex items-center">
+            <i class="fas fa-map-marker-alt text-indigo-400 mr-2"></i>
+            <span>Egypt</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-graduation-cap text-indigo-400 mr-2"></i>
+            <span>Computer Science</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-briefcase text-indigo-400 mr-2"></i>
+            <span>3+ Years Experience</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-code text-indigo-400 mr-2"></i>
+            <span>10+ Projects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-20 bg-gray-800/50 fade-in">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16 gradient-text">My Skills</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fab fa-python"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Python</h3>
+          <p class="text-gray-400">Advanced scripting and backend development</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-network-wired"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Networking</h3>
+          <p class="text-gray-400">TCP/IP, DNS, Firewalls, Security</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fab fa-java"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Java</h3>
+          <p class="text-gray-400">Enterprise applications development</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-database"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Database</h3>
+          <p class="text-gray-400">SQL, NoSQL, Design & Optimization</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-cube"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">OOP</h3>
+          <p class="text-gray-400">Design Patterns, SOLID Principles</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Web Programming</h3>
+          <p class="text-gray-400">Frontend & Backend development</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-server"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Web Server</h3>
+          <p class="text-gray-400">Configuration & Deployment</p>
+        </div>
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+          <div class="text-indigo-400 text-4xl mb-3">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">System Design</h3>
+          <p class="text-gray-400">Architecture & Scalability</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 px-4 max-w-6xl mx-auto fade-in">
+    <h2 class="text-4xl font-bold text-center mb-16 gradient-text">Featured Projects</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+          <i class="fas fa-server text-white text-6xl"></i>
+        </div>
+        <div class="p-6">
+          <h3 class="text-2xl font-bold mb-2">Web Server</h3>
+          <p class="text-gray-400 mb-4">
+            A high-performance web server built from scratch with custom routing and middleware support.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Python</span>
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Socket</span>
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">HTTP</span>
+          </div>
+          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center">
+            View Project <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="h-48 bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center">
+          <i class="fas fa-car text-white text-6xl"></i>
+        </div>
+        <div class="p-6">
+          <h3 class="text-2xl font-bold mb-2">Car Rental Management</h3>
+          <p class="text-gray-400 mb-4">
+            Complete system for managing car rentals with inventory, booking, and payment processing.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Java</span>
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Spring Boot</span>
+            <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">MySQL</span>
+          </div>
+          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center">
+            View Project <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-12">
+      <a href="#" class="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-full hover:bg-indigo-500 hover:text-white transition-all">
+        View All Projects
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gray-800/50 fade-in">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold mb-6 gradient-text">Get In Touch</h2>
+      <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+        Have a project in mind or want to discuss potential opportunities? Feel free to reach out!
+      </p>
+      <form class="max-w-lg mx-auto grid gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="text" placeholder="Your Name" class="bg-gray-700 px-6 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <input type="email" placeholder="Your Email" class="bg-gray-700 px-6 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <input type="text" placeholder="Subject" class="bg-gray-700 px-6 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <textarea placeholder="Your Message" rows="4" class="bg-gray-700 px-6 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+        <button type="submit" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 text-center fade-in">
+    <div class="max-w-6xl mx-auto px-4">
+      <a href="#" class="text-3xl font-bold gradient-text">AboGabal</a>
+      <div class="flex justify-center space-x-6 my-6">
+        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+      <p class="text-gray-500">
+        &copy; 2023 Ahmed AboGabal. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const faders = document.querySelectorAll(".fade-in");
+      const appearOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px"
+      };
+
+      const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        });
+      }, appearOptions);
+
+      faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
