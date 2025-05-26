@@ -8,56 +8,250 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
       --primary: #6366f1;
       --primary-dark: #4f46e5;
+      --secondary: #7c3aed;
+      --accent: #db2777;
+      --dark: #0f172a;
     }
+    
     html {
       scroll-behavior: smooth;
     }
+    
     body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background: linear-gradient(135deg, var(--dark), #1e293b);
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    
+    /* Particle canvas */
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
-    .fade-in.revealed {
-      opacity: 1;
-      transform: translateY(0);
+    
+    /* Glitch effect - أكثر اعتدالاً */
+    .glitch {
+      position: relative;
     }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--dark);
+      opacity: 0.2;
+    }
+    .glitch::before {
+      left: 1px;
+      text-shadow: -1px 0 #ff00c1;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 8s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      left: -1px;
+      text-shadow: -1px 0 #00fff9, 1px 1px #ff00c1;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 8s infinite linear alternate-reverse;
+    }
+    
+    @keyframes glitch-anim {
+      0% { clip: rect(31px, 9999px, 94px, 0); }
+      10% { clip: rect(112px, 9999px, 76px, 0); }
+      20% { clip: rect(85px, 9999px, 77px, 0); }
+      30% { clip: rect(27px, 9999px, 97px, 0); }
+      40% { clip: rect(64px, 9999px, 98px, 0); }
+      50% { clip: rect(61px, 9999px, 85px, 0); }
+      60% { clip: rect(99px, 9999px, 114px, 0); }
+      70% { clip: rect(34px, 9999px, 115px, 0); }
+      80% { clip: rect(98px, 9999px, 129px, 0); }
+      90% { clip: rect(43px, 9999px, 96px, 0); }
+      100% { clip: rect(82px, 9999px, 64px, 0); }
+    }
+    
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 119px, 0); }
+      10% { clip: rect(79px, 9999px, 66px, 0); }
+      20% { clip: rect(30px, 9999px, 133px, 0); }
+      30% { clip: rect(87px, 9999px, 82px, 0); }
+      40% { clip: rect(23px, 9999px, 87px, 0); }
+      50% { clip: rect(81px, 9999px, 85px, 0); }
+      60% { clip: rect(114px, 9999px, 59px, 0); }
+      70% { clip: rect(60px, 9999px, 92px, 0); }
+      80% { clip: rect(104px, 9999px, 37px, 0); }
+      90% { clip: rect(142px, 9999px, 74px, 0); }
+      100% { clip: rect(18px, 9999px, 103px, 0); }
+    }
+    
+    /* Hover effects - أكثر اعتدالاً */
+    .hover-3d {
+      transition: all 0.3s ease;
+    }
+    .hover-3d:hover {
+      transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Gradient text animation - أقل توهجاً */
     .gradient-text {
-      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      background-size: 200% auto;
+      animation: gradientText 5s ease infinite;
     }
-    .skill-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    
+    @keyframes gradientText {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
     }
-    .project-card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Floating animation - تم إزالته */
+    /* @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
     }
-    .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    .floating {
+      animation: floating 6s ease-in-out infinite;
+    } */
+    
+    /* تم تعديل النيون ليصبح نصاً عادياً */
+    .neon {
+      text-shadow: none;
+      color: #e2e8f0;
     }
-    .social-icon {
+    
+    /* Matrix rain effect - كما هو */
+    .matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    
+    /* Liquid button - أكثر اعتدالاً */
+    .liquid-btn {
+      position: relative;
+      overflow: hidden;
       transition: all 0.3s ease;
     }
+    
+    .liquid-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255,255,255,0.1),
+        rgba(255,255,255,0)
+      );
+      transform: rotate(30deg);
+      transition: all 0.5s ease;
+    }
+    
+    .liquid-btn:hover::before {
+      left: 100%;
+      top: 100%;
+    }
+    
+    /* Cyberpunk scanlines - تم تخفيفه */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 255, 255, 0.02) 1px,
+        transparent 2px
+      );
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.2;
+    }
+    
+    /* Holographic effect - تم تخفيفه */
+    .holographic {
+      background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.1) 0%, 
+        rgba(139, 92, 246, 0.1) 20%, 
+        rgba(236, 72, 153, 0.1) 40%, 
+        rgba(139, 92, 246, 0.1) 60%, 
+        rgba(99, 102, 241, 0.1) 80%);
+      background-size: 200% 200%;
+      animation: holographic 8s ease infinite;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    @keyframes holographic {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+    
+    /* Custom scrollbar - كما هو */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--secondary), var(--accent));
+      border-radius: 10px;
+    }
+
+    /* Social icons - أكثر اعتدالاً */
+    .social-icon {
+      color: #94a3b8;
+      transition: color 0.2s ease;
+    }
     .social-icon:hover {
-      transform: scale(1.2);
+      color: #6366f1;
     }
   </style>
 </head>
 <body class="text-gray-100 font-sans antialiased">
+  <!-- Matrix rain effect -->
+  <canvas id="matrix" class="matrix"></canvas>
+  
+  <!-- Particle background -->
+  <div id="particles-js"></div>
+  
+  <!-- Cyberpunk scanlines -->
+  <div class="scanlines"></div>
+  
   <!-- Floating Navigation -->
   <nav class="fixed w-full bg-gray-900/80 backdrop-blur-sm z-50 py-3 px-6 shadow-lg">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <a href="#" class="text-xl font-bold gradient-text">AboGabal</a>
+      <a href="#" class="text-xl font-bold gradient-text glitch" data-text="AboGabal">AboGabal</a>
       <div class="hidden md:flex space-x-8">
         <a href="#about" class="hover:text-indigo-300 transition">About</a>
         <a href="#skills" class="hover:text-indigo-300 transition">Skills</a>
@@ -71,13 +265,13 @@
   </nav>
 
   <!-- Hero Section -->
-  <header class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 fade-in">
+  <header class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16">
     <div class="relative">
       <div class="absolute -inset-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 animate-pulse"></div>
       <img src="ahmed.jpg (2).jpeg" alt="Ahmed AboGabal" 
-           class="relative rounded-full w-40 h-40 shadow-xl border-4 border-gray-800 object-cover">
+           class="relative rounded-full w-40 h-40 shadow-xl border-4 border-gray-800 object-cover hover-3d">
     </div>
-    <h1 class="text-5xl font-bold mt-8 mb-2">Ahmed AboGabal</h1>
+    <h1 class="text-5xl font-bold mt-8 mb-2 glitch" data-text="Ahmed AboGabal">Ahmed AboGabal</h1>
     <div class="text-2xl mb-6">
       <span class="gradient-text font-medium">Full Stack Developer</span>
       <span class="mx-2">•</span>
@@ -87,36 +281,36 @@
       Building innovative solutions with clean code and modern technologies
     </p>
     <div class="flex space-x-6">
-      <a href="mailto:your-email@example.com" class="social-icon text-2xl text-indigo-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+      <a href="mailto:your-email@example.com" class="social-icon text-2xl" target="_blank" rel="noopener noreferrer">
         <i class="fas fa-envelope"></i>
       </a>
-      <a href="https://www.facebook.com/share/1HCeAVe8bC/?mibextid=wwXIfr" class="social-icon text-2xl text-indigo-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.facebook.com/share/1HCeAVe8bC/?mibextid=wwXIfr" class="social-icon text-2xl" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-facebook"></i>
       </a>
-      <a href="https://www.instagram.com/ahmed_.abogabal?igsh=cjMxenhhbjRqeTU%3D&utm_source=qr" class="social-icon text-2xl text-indigo-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.instagram.com/ahmed_.abogabal?igsh=cjMxenhhbjRqeTU%3D&utm_source=qr" class="social-icon text-2xl" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-instagram"></i>
       </a>
-      <a href="https://ahmed-abo-gabal.github.io/abogabal.github.io/" class="social-icon text-2xl text-indigo-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+      <a href="https://ahmed-abo-gabal.github.io/abogabal.github.io/" class="social-icon text-2xl" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-github"></i>
       </a>
-      <a href="https://www.linkedin.com/in/ahmed-alham-abo-gabal-49b812350" class="social-icon text-2xl text-indigo-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.linkedin.com/in/ahmed-alham-abo-gabal-49b812350" class="social-icon text-2xl" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-linkedin"></i>
       </a>
     </div>
-    <a href="#about" class="mt-12 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+    <a href="#about" class="mt-12 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300 liquid-btn">
       Explore My Work
     </a>
   </header>
 
   <!-- About Section -->
-  <section id="about" class="py-20 px-4 max-w-6xl mx-auto fade-in">
-    <h2 class="text-4xl font-bold text-center mb-16 gradient-text">About Me</h2>
+  <section id="about" class="py-20 px-4 max-w-6xl mx-auto">
+    <h2 class="text-4xl font-bold text-center mb-16 gradient-text glitch" data-text="About Me">About Me</h2>
     <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div>
+      <div class="holographic rounded-xl p-4 hover-3d">
         <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_iv4dsx3q.json" background="transparent" speed="1" style="width: 100%; height: auto;" loop autoplay></lottie-player>
       </div>
-      <div>
-        <h3 class="text-2xl font-semibold mb-4">Hello, I'm Ahmed 👋</h3>
+      <div class="holographic rounded-xl p-8 hover-3d">
+        <h3 class="text-2xl font-semibold mb-4">Hello, I'm Ahmed <span class="wave">👋</span></h3>
         <p class="text-lg text-gray-300 mb-6 leading-relaxed">
           Passionate developer with expertise in web technologies and system design. I specialize in creating efficient, 
           scalable applications with clean code and intuitive user interfaces.
@@ -148,60 +342,60 @@
   </section>
 
   <!-- Skills Section -->
-  <section id="skills" class="py-20 bg-gray-800/50 fade-in">
+  <section id="skills" class="py-20 bg-gray-800/50">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-16 gradient-text">My Skills</h2>
+      <h2 class="text-4xl font-bold text-center mb-16 gradient-text glitch" data-text="My Skills">My Skills</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fab fa-python"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Python</h3>
           <p class="text-gray-400">Advanced scripting and backend development</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-network-wired"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Networking</h3>
           <p class="text-gray-400">TCP/IP, DNS, Firewalls, Security</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fab fa-java"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Java</h3>
           <p class="text-gray-400">Enterprise applications development</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-database"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Database</h3>
           <p class="text-gray-400">SQL, NoSQL, Design & Optimization</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-cube"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">OOP</h3>
           <p class="text-gray-400">Design Patterns, SOLID Principles</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-code"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Web Programming</h3>
           <p class="text-gray-400">Frontend & Backend development</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-server"></i>
           </div>
           <h3 class="text-xl font-semibold mb-2">Web Server</h3>
           <p class="text-gray-400">Configuration & Deployment</p>
         </div>
-        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300">
+        <div class="skill-card bg-gray-800 p-6 rounded-xl transition-all duration-300 hover-3d">
           <div class="text-indigo-400 text-4xl mb-3">
             <i class="fas fa-project-diagram"></i>
           </div>
@@ -213,10 +407,10 @@
   </section>
 
   <!-- Projects Section -->
-  <section id="projects" class="py-20 px-4 max-w-6xl mx-auto fade-in">
-    <h2 class="text-4xl font-bold text-center mb-16 gradient-text">Featured Projects</h2>
+  <section id="projects" class="py-20 px-4 max-w-6xl mx-auto">
+    <h2 class="text-4xl font-bold text-center mb-16 gradient-text glitch" data-text="Featured Projects">Featured Projects</h2>
     <div class="grid md:grid-cols-2 gap-8">
-      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl">
+      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl hover-3d">
         <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
           <i class="fas fa-server text-white text-6xl"></i>
         </div>
@@ -230,12 +424,12 @@
             <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Socket</span>
             <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">HTTP</span>
           </div>
-          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center">
+          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center liquid-btn">
             View Project <i class="fas fa-arrow-right ml-2"></i>
           </a>
         </div>
       </div>
-      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl">
+      <div class="project-card bg-gray-800 rounded-xl overflow-hidden shadow-xl hover-3d">
         <div class="h-48 bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center">
           <i class="fas fa-car text-white text-6xl"></i>
         </div>
@@ -249,23 +443,23 @@
             <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">Spring Boot</span>
             <span class="px-3 py-1 bg-gray-700 rounded-full text-sm">MySQL</span>
           </div>
-          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center">
+          <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center liquid-btn">
             View Project <i class="fas fa-arrow-right ml-2"></i>
           </a>
         </div>
       </div>
     </div>
     <div class="text-center mt-12">
-      <a href="#" class="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-full hover:bg-indigo-500 hover:text-white transition-all">
+      <a href="#" class="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-full hover:bg-indigo-500 hover:text-white transition-all liquid-btn">
         View All Projects
       </a>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gray-800/50 fade-in">
+  <section id="contact" class="py-20 bg-gray-800/50">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold mb-6 gradient-text">Get In Touch</h2>
+      <h2 class="text-4xl font-bold mb-6 gradient-text glitch" data-text="Get In Touch">Get In Touch</h2>
       <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
         Have a project in mind or want to discuss potential opportunities? Feel free to reach out!
       </p>
@@ -276,7 +470,7 @@
         </div>
         <input type="text" placeholder="Subject" class="bg-gray-700 px-6 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
         <textarea placeholder="Your Message" rows="4" class="bg-gray-700 px-6 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-        <button type="submit" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300">
+        <button type="submit" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-medium hover:shadow-lg transition-all duration-300 liquid-btn">
           Send Message
         </button>
       </form>
@@ -284,20 +478,20 @@
   </section>
 
   <!-- Footer -->
-  <footer class="py-12 text-center fade-in">
+  <footer class="py-12 text-center bg-gray-900/80">
     <div class="max-w-6xl mx-auto px-4">
-      <a href="#" class="text-3xl font-bold gradient-text">AboGabal</a>
+      <a href="#" class="text-3xl font-bold gradient-text glitch" data-text="AboGabal">AboGabal</a>
       <div class="flex justify-center space-x-6 my-6">
-        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+        <a href="#" class="social-icon text-xl">
           <i class="fab fa-linkedin"></i>
         </a>
-        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+        <a href="#" class="social-icon text-xl">
           <i class="fab fa-github"></i>
         </a>
-        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+        <a href="#" class="social-icon text-xl">
           <i class="fab fa-twitter"></i>
         </a>
-        <a href="#" class="social-icon text-xl text-gray-400 hover:text-indigo-400">
+        <a href="#" class="social-icon text-xl">
           <i class="fas fa-envelope"></i>
         </a>
       </div>
@@ -307,7 +501,157 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
+    // Initialize particles.js
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#6366f1"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#6366f1",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Matrix rain effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const nums = '0123456789';
+    
+    const alphabet = katakana + latin + nums;
+    
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    
+    const rainDrops = [];
+    
+    for (let x = 0; x < columns; x++) {
+      rainDrops[x] = 1;
+    }
+    
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = '#0af';
+      ctx.font = fontSize + 'px monospace';
+      
+      for (let i = 0; i < rainDrops.length; i++) {
+        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+        
+        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          rainDrops[i] = 0;
+        }
+        rainDrops[i]++;
+      }
+    };
+    
+    setInterval(draw, 30);
+
     // Scroll reveal animation
     document.addEventListener("DOMContentLoaded", () => {
       const faders = document.querySelectorAll(".fade-in");
@@ -337,6 +681,28 @@
           });
         });
       });
+
+      // Initialize ScrollReveal
+      ScrollReveal().reveal('section, header', {
+        delay: 200,
+        distance: '50px',
+        origin: 'bottom',
+        easing: 'cubic-bezier(0.5, 0, 0, 1)',
+        interval: 100
+      });
+    });
+
+    // Mouse trail effect
+    document.addEventListener('mousemove', function(e) {
+      const trail = document.createElement('div');
+      trail.className = 'mouse-trail';
+      trail.style.left = e.pageX - 5 + 'px';
+      trail.style.top = e.pageY - 5 + 'px';
+      document.body.appendChild(trail);
+      
+      setTimeout(() => {
+        trail.remove();
+      }, 1000);
     });
   </script>
 </body>
